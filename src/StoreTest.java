@@ -5,7 +5,7 @@ public class StoreTest {
     // Define the filename for our  data
     private static final String FILE_NAME = "store.dat";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StoreException {
         Scanner input = new Scanner(System.in);
         Store store = null;
 

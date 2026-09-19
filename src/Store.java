@@ -36,8 +36,8 @@ public class Store implements Serializable{
     public Product searchProductById(int id) {
         Node<Product> current = inventory.getFirstNode();
         while (current != null) {
-            if (current.data.getId() == id) {
-                return current.data;
+            if (current.getData().getId() == id) {
+                return current.getData();
             }
             current = current.nextNode;
 
@@ -47,8 +47,8 @@ public class Store implements Serializable{
     public Product searchProductByName(String name) {
         Node<Product> current = inventory.getFirstNode();
         while (current != null) {
-            if (current.data.getName().equalsIgnoreCase(name)) {
-                return current.data;
+            if (current.getData().getName().equalsIgnoreCase(name)) {
+                return current.getData();
             }
             current = current.nextNode;
 
@@ -59,7 +59,7 @@ public class Store implements Serializable{
     public double calculateTotalInventory (Node<Product> current) {  // a recursive method that gets a sum of all of the inventory by multiplying the stock*price
         if (current == null)
             return 0;
-        double productValue = current.data.getPrice() * current.data.getStock();
+        double productValue = current.getData().getPrice() * current.getData().getStock();
         return productValue + calculateTotalInventory(current.nextNode);
 
     }
@@ -85,8 +85,8 @@ public class Store implements Serializable{
     public Person findUserByID(int id) {
         Node<Person> current = users.getFirstNode();
         while (current != null) {
-            if (current.data.getId() == id) {
-                return current.data;
+            if (current.getData().getId() == id) {
+                return current.getData();
             }
             current = current.nextNode;
 
@@ -97,8 +97,8 @@ public class Store implements Serializable{
     public Person login(String name , String password) {
         Node<Person> current = users.getFirstNode();
         while(current != null) {
-            if(name.equalsIgnoreCase(current.data.getName())&& password.equals(current.data.getPassword())) {
-                return current.data;
+            if(name.equalsIgnoreCase(current.getData().getName())&& password.equals(current.getData().getPassword())) {
+                return current.getData();
             }
             current = current.nextNode;
         }
@@ -113,7 +113,7 @@ public class Store implements Serializable{
         Node<Person> current = users.getFirstNode();
         String s = "";
         while(current != null) {
-            s += current.data.toString() + "\n";
+            s += current.getData().toString() + "\n";
             s += "----------------------------------------\n";
             current = current.nextNode;
         }
@@ -124,21 +124,21 @@ public class Store implements Serializable{
         String s = "";
         if(person instanceof VIPCustomer) {
             while(current != null) {
-                s += current.data + "\n";
-                s += "Discounted Price: " + ((VIPCustomer)person).calculateDiscountedPrice(current.data.getPrice())+"\n----------------------------------------\n";
+                s += current.getData() + "\n";
+                s += "Discounted Price: " + ((VIPCustomer)person).calculateDiscountedPrice(current.getData().getPrice())+"\n----------------------------------------\n";
                 current = current.nextNode;
             }
             return s;
         }
 
         while(current != null) {
-            s += current.data +"\n----------------------------------------\n";
+            s += current.getData() +"\n----------------------------------------\n";
             current = current.nextNode;
         }
         return s;
     }
 
-    public boolean purchaseProduct(Customer c , Product p) { //this method is to process the purchase of the Item
+    public boolean purchaseProduct(Customer c , Product p) throws StoreException { //this method is to process the purchase of the Item
         if((p.isAvailable())) {
             double Price;
             if(c instanceof VIPCustomer) { // checks if customer is vip
